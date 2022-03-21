@@ -7,7 +7,7 @@
         "class": "PrinsFrank\\ComposerImplicitSupportChecker\\Plugin"
     },
     "require": {
-        "php": "7.1.* || 7.2.* || 7.3.* || 7.4.* || 8.0.* || 8.1.*",
+        "php": "7.3.* || 7.4.* || 8.0.* || 8.1.*",
         "composer-plugin-api": "^1.0 || ^2.0"
     },
     "require-dev": {
