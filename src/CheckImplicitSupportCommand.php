@@ -31,20 +31,21 @@ class CheckImplicitSupportCommand extends BaseCommand
         $versionParser = new VersionParser();
         foreach ($requiredPackages as $package) {
             $packageName = $package['name'] ?? '';
+            $packageType = $package['type'] ?? 'package';
             $phpVersionConstraint = $package['require']['php'] ?? null;
             if ($phpVersionConstraint === null) {
-                $this->getIO()->warning('Package "' . $packageName . '" has no PHP version defined');
+                $this->getIO()->warning($packageType . ' "' . $packageName . '" has no PHP version defined');
                 $warnings++;
             } elseif ($versionParser->parseConstraints($phpVersionConstraint)->matches(new Constraint('==', $versionParser->normalize(PHP_VERSION))) === false) {
-                $this->getIO()->error('Package "' . $packageName . '" requires an incompatible PHP version (' . $phpVersionConstraint . ')');
+                $this->getIO()->error($packageType . ' "' . $packageName . '" requires an incompatible PHP version (' . $phpVersionConstraint . ')');
                 $errors++;
             } elseif(str_contains($phpVersionConstraint, PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION)) {
-                $this->getIO()->info('Package "' .  $packageName . '" explicitly supports the current PHP version (' . $phpVersionConstraint . ')');
+                $this->getIO()->info($packageType . ' "' .  $packageName . '" explicitly supports the current PHP version (' . $phpVersionConstraint . ')');
             } elseif(str_contains($phpVersionConstraint, PHP_MAJOR_VERSION . '.0')) {
-                $this->getIO()->warning('Package "' . $packageName . '" implicitly supports the current PHP Major version (' . $phpVersionConstraint . ')');
+                $this->getIO()->warning($packageType . ' "' . $packageName . '" implicitly supports the current PHP Major version (' . $phpVersionConstraint . ')');
                 $warnings++;
             } else {
-                $this->getIO()->warning('Package "' . $packageName . '" implicitly supports the current PHP version (' . $phpVersionConstraint . ')');
+                $this->getIO()->warning($packageType . ' "' . $packageName . '" implicitly supports the current PHP version (' . $phpVersionConstraint . ')');
                 $warnings++;
             }
         }
